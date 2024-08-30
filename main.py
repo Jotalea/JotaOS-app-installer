@@ -14,6 +14,8 @@ import tarfile
 import threading
 import time
 
+# pip install requests PyQt5 PyQtWebEngine
+
 packageName = "com.pystardust.ani-cli.jpkg"
 
 InstallerAssets = {
@@ -22,19 +24,24 @@ InstallerAssets = {
     "fonturl": "assets/font.ttf",
     "altopts": {
         "iconurl": [
-            "application.svg",
-            "https://github.com/Jotalea/JotaOS-app-installer/"
+            "https://raw.githubusercontent.com/Jotalea/JotaOS-app-installer/main/assets/application.svg"
         ],
         "appsurl": [
-            "folder-applications.svg",
-            "https://github.com/Jotalea/JotaOS-app-installer/"
+            "https://raw.githubusercontent.com/Jotalea/JotaOS-app-installer/main/assets/folder-applications.svg"
         ],
         "fonturl": [
-            "font.ttf",
-            "https://github.com/Jotalea/JotaOS-app-installer/"
+            "https://raw.githubusercontent.com/Jotalea/JotaOS-app-installer/main/assets/font.ttf"
         ],
     }
 }
+
+# Check if the resource files exist
+if not (Path.cwd() / InstallerAssets["appsurl"]).exists():
+    InstallerAssets["appsurl"] = InstallerAssets["altopts"]["appsurl"][0]
+if not (Path.cwd() / InstallerAssets["iconurl"]).exists():
+    InstallerAssets["iconurl"] = InstallerAssets["altopts"]["iconurl"][0]
+if not (Path.cwd() / InstallerAssets["fonturl"]).exists():
+    InstallerAssets["fonturl"] = InstallerAssets["altopts"]["fonturl"][0]
 
 with tarfile.open(packageName, 'r:xz') as archive:
     print("Files in the archive:")
